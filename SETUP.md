@@ -17,6 +17,12 @@ You need at least to following to get started
 python3 -m venv .dcdqenv
 ```
 
+* Activate the Virtual Enviroment
+
+```bash
+source .dcdqenv/bin/activate
+```
+
 * Install the required Python packages
 
 ```bash

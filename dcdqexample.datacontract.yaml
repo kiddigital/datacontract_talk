@@ -1,0 +1,203 @@
+dataContractSpecification: 0.9.3
+id: urn:datacontract:nbility:2.2:grid:grid-component:primairy-component:netstation:0.1.0
+info:
+  title: Net Station
+  description: Net Station data for low and medium voltage grids
+  version: 0.1.0
+  license: https://creativecommons.org/licenses/by-nd/3.0/nl/
+  owner: Enexis - EDSN
+  status: proposed
+  contact:
+    name: Patrick Beitsma (Systems Architect)
+    url: https://www.enexis.nl
+    email: patrick.beitsma@enexis.nl
+tags:
+  - enexis
+  - nbility
+  - grid component
+  - primaire grid component
+  - netstation
+links:
+  schemaurl: https://schemas.enexis.nl/datacontracts/netstation/0.1.0/netstation.datacontract.yaml
+servers:
+  localdevelopment:
+    type: postgres
+    environment: dev
+    host: localhost
+    port: 5432
+    schema: public
+    database: netstation
+    username: postgres
+    password: netstation
+terms:
+  usage: |
+    Data can be used for reports, analytics and machine learning use cases.
+    Information may be linked and joined by other tables
+  limitations: |
+    Not suitable for real-time use cases.
+    Data may not be used to identify individual customers.
+    Max data processing per day: 10 TiB
+  billing: free
+  noticePeriod: P18M
+models:
+  netStation:
+    description: Contains details of the net station, including its location and ID
+    type: table
+    fields:
+      marid:
+        description: Unique identifier for the NetStation
+        required: true
+        $ref: "#/definitions/marid"
+      rdpoint:
+        description: Geographic location of the NetStation
+        required: true
+        $ref: "#/definitions/rdpoint"
+      installdate:
+        type: string
+        required: true
+        format: date
+        description: Date when the NetStation become operational
+      manufacturer:
+        type: string
+        description: Manufacturer of the transformer
+      stationtype:
+        type: string
+        required: true
+        description: Type of the NetStation
+        enum:
+          - Netstation
+          - Klantstation
+definitions:
+  marid:
+    domain: asset
+    name: marid
+    title: Master Asset Reference Identifier
+    type: string
+    pattern: ^[0-9]{19}$
+    example: "1759829606489425277"
+    description: |
+      A Master Asset Reference Identifier (MARID) is a unique identifier for an asset.
+  rdpoint:
+    domain: geospatial
+    name: rdpoint
+    title: Rijksdriehoekspunt
+    description: |
+      A Rijksdriehoekspunt (RD point) is a geographic coordinate system used in the Netherlands.
+      point:
+    type: string
+    pattern: ^[0-9]{6}.[0-9]{6}$
+    example: "275939,493.583845,199"
+#    type: object
+#    properties:
+#      x:
+#        type: number
+#        description: X-coordinate of the location
+#      y:
+#        type: number
+#        description: Y-coordinate of the location
+#      z:
+#        type: number
+#        description: Z-coordinate of the location
+#      example:
+#        x: 275939
+#        y: 493.583845
+#        z: 199
+  sku:
+    domain: inventory
+    name: sku
+    title: Stock Keeping Unit
+    type: text
+    pattern: ^[A-Za-z0-9]{8,14}$
+    example: "96385074"
+    description: |
+      A Stock Keeping Unit (SKU) is an internal unique identifier for an article. 
+      It is typically associated with an article's barcode, such as the EAN/GTIN.
+    links:
+      wikipedia: https://en.wikipedia.org/wiki/Stock_keeping_unit
+    tags:
+      - inventory
+examples:
+  - type: csv # csv, json, yaml, custom
+    model: netStation
+    description: An example list of NetStations.
+    data: | # expressed as string or inline yaml or via "$ref: data.csv"
+      rdpoint,installdate,marid,stationtype
+      "275939,493.583845,199","21-1-2015","1759829606489425277","Netstation"
+      "224770,332.571846,539","3-3-2021","8280070787702160796","Netstation"
+      "247616,592.558066,284","12-9-2023","2532014007053759152","Netstation"
+      "209118,818.477087,963","15-7-2024","2784557512835073283","Netstation"
+      "233979,167.481138,798","30-6-2024","3300932205224754818","Netstation"
+      "232445,705.557234,794","4-10-2024","3571060509707213992","Klantstation"
+      "244166,201.512491,264","16-9-2024","3571060509713611774","Netstation"
+      "231750,326.604285,542","19-7-2022","1373005588884880253","Netstation"
+      "260652,999.592582,027","4-12-2014","1593733523117114053","Netstation"
+      "234520,806.582189,396","19-8-2014","1759829606489627760","Klantstation"
+      "235033,825.582045,954","2-5-2017","2196278277529316985","Netstation"
+      "261811,98.592472,716","3-8-2018","5585320551421405411","Netstation"
+      "233954,384.582601,601","14-1-2010","5767134243704963811","Klantstation"
+      "253378,047.526272,124","10-7-2009","5995790249480484175","Netstation"
+      "258905,233.592907,898","1-3-2019","6250158549425467240","Netstation"
+      "259285,972.593236,638","16-5-2023","8280070787738064824","Klantstation"
+      "234065,785.582014,692","1-2-2019","6499541792497599311","Klantstation"
+      "233735,028.582074,258","11-3-2021","8910274779314909563","Klantstation"
+      "230680,628.480868,399","11-6-2024","3300932205233115596","Netstation"
+      "235458,909.582645,087","20-9-2024","3571060509709653276","Netstation"
+      "241162,765.537816,535","20-9-2024","3571060509726128005","Netstation"
+      "240595,523.536382,564","20-9-2024","3571060509726128029","Netstation"
+      "226840,644.553221,183","20-9-2024","3571060509726127959","Netstation"
+      "231163,938.537758,606","20-9-2024","3571060509726127917","Netstation"
+      "231689,038.535582,054","20-9-2024","3571060509726127928","Netstation"
+      "231496,883.536963,292","20-9-2024","3571060509726127941","Netstation"
+      "241301,167.539235,969","20-9-2024","3571060509726127968","Netstation"
+      "226562,989.552548,762","20-9-2024","3571060509726127950","Netstation"
+      "241332,707.538600,903","20-9-2024","3571060509726127981","Netstation"
+      "199625,085.506737,223","7-2-2022","456064409478705263","Netstation"
+      "256352,492.594308,93","1-3-2009","5455522426371245069","Netstation"
+      "265812,426.580877,98","29-4-2022","456064409526490892","Netstation"
+      "245900,809.542134,043","1-3-2024","3072610330737540748","Netstation"
+      "192968,075.521120,213","21-5-2024","3072610330748588061","Netstation"
+      "243306,493.562937,53","30-4-2024","3300932205229332239","Netstation"
+      "257626,528.595185,04","10-9-2024","3571060509703393276","Netstation"
+      "230941,234.555606,898","23-9-2024","3571060509726128066","Netstation"
+servicelevels:
+  availability:
+    description: The server is available during support hours
+    percentage: 99.9%
+  retention:
+    description: Data is retained for two year2
+    period: P2Y
+    unlimited: false
+  latency:
+    description: Data is available within 1 month after the Net Station is operational
+    threshold: 1M
+    sourceTimestampField: netStation.installdate
+    processedTimestampField: netStation.installdate
+  freshness:
+    description: The age of the youngest row in a table.
+    threshold: 25h
+    timestampField: orders.order_timestamp
+  frequency:
+    description: Data is delivered once a day
+    type: batch # or streaming
+    interval: daily # for batch, either or cron
+    cron: 0 0 * * * # for batch, either or interval
+  support:
+    description: The data is available during typical business hours at headquarters
+    time: 9am to 5pm in CST on business days
+    responseTime: 1h
+  backup:
+    description: Data is backed up once a week, every Sunday at 0:00 UTC.
+    interval: weekly
+    cron: 0 0 * * 0
+    recoveryTime: 24 hours
+    recoveryPoint: 1 week
+quality:
+  type: SodaCL   # data quality check format: SodaCL, montecarlo, custom
+  specification: # expressed as string or inline yaml or via "$ref: checks.yaml"
+    checks for netStation:
+      - row_count >= 5
+      - duplicate_count(marid) = 0
+      - max(installdate) <= now() - 1d
+#    checks for line_items:
+#      - values in (order_id) must exist in orders (order_id)
+#      - row_count >= 5
