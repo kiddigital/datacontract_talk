@@ -26,9 +26,7 @@ servers:
     host: localhost
     port: 5432
     schema: public
-    database: netstation
-    username: postgres
-    password: netstation
+    database: exsnet
 terms:
   usage: |
     Data can be used for reports, analytics and machine learning use cases.
@@ -40,7 +38,7 @@ terms:
   billing: free
   noticePeriod: P18M
 models:
-  netStation:
+  netstation:
     description: Contains details of the net station, including its location and ID
     type: table
     fields:
@@ -69,24 +67,24 @@ models:
           - Klantstation
 definitions:
   marid:
-    domain: asset
-    name: marid
+    ID: "asset/marid"
     title: Master Asset Reference Identifier
     type: string
-    pattern: ^[0-9]{19}$
-    example: "1759829606489425277"
+    pattern: \d{19}
+    examples:
+    - "1759829606489425277"
     description: |
       A Master Asset Reference Identifier (MARID) is a unique identifier for an asset.
   rdpoint:
-    domain: geospatial
-    name: rdpoint
+    ID: "geospatial/rdpoint"
     title: Rijksdriehoekspunt
     description: |
       A Rijksdriehoekspunt (RD point) is a geographic coordinate system used in the Netherlands.
       point:
     type: string
     pattern: ^[0-9]{6}.[0-9]{6}$
-    example: "275939,493.583845,199"
+    examples:
+    - "275939,493.583845,199"
 #    type: object
 #    properties:
 #      x:
@@ -103,12 +101,12 @@ definitions:
 #        y: 493.583845
 #        z: 199
   sku:
-    domain: inventory
-    name: sku
+    ID: "inventory/sku"
     title: Stock Keeping Unit
     type: text
     pattern: ^[A-Za-z0-9]{8,14}$
-    example: "96385074"
+    examples:
+    - "96385074"
     description: |
       A Stock Keeping Unit (SKU) is an internal unique identifier for an article. 
       It is typically associated with an article's barcode, such as the EAN/GTIN.
@@ -118,7 +116,7 @@ definitions:
       - inventory
 examples:
   - type: csv # csv, json, yaml, custom
-    model: netStation
+    model: netstation
     description: An example list of NetStations.
     data: | # expressed as string or inline yaml or via "$ref: data.csv"
       rdpoint,installdate,marid,stationtype
@@ -170,12 +168,12 @@ servicelevels:
   latency:
     description: Data is available within 1 month after the Net Station is operational
     threshold: 1M
-    sourceTimestampField: netStation.installdate
-    processedTimestampField: netStation.installdate
+    sourceTimestampField: netstation.installdate
+    processedTimestampField: netstation.installdate
   freshness:
     description: The age of the youngest row in a table.
     threshold: 25h
-    timestampField: orders.order_timestamp
+    timestampField: netstation.installdate
   frequency:
     description: Data is delivered once a day
     type: batch # or streaming
@@ -194,10 +192,10 @@ servicelevels:
 quality:
   type: SodaCL   # data quality check format: SodaCL, montecarlo, custom
   specification: # expressed as string or inline yaml or via "$ref: checks.yaml"
-    checks for netStation:
+    checks for netstation:
       - row_count >= 5
       - duplicate_count(marid) = 0
-      - max(installdate) <= now() - 1d
+#      - max(installdate) <= now(-1d)
 #    checks for line_items:
 #      - values in (order_id) must exist in orders (order_id)
 #      - row_count >= 5

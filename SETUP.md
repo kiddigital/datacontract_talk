@@ -30,5 +30,34 @@ pip3 install datacontract-cli[all]
 ```
 
 ```bash
+pip3 install soda-core-postgres
+```
+
+```bash
 pip3 install -r requirement.txt
 ```
+
+
+export DATACONTRACT_POSTGRES_PASSWORD=Enex1s2024
+export DATACONTRACT_POSTGRES_USERNAME=exsnet
+
+## PostgreSQL
+
+sudo apt install postgresql-client
+
+datacontract export --format=sql dcdqexample.datacontract.yaml | psql -h localhost -U exsnet -f -
+
+
+## Podman
+
+https://hub.docker.com/_/postgres
+
+podman pull postgres
+podman run -e POSTGRES_PASSWORD=Enex1s2024 -e POSTGRES_USER=exsnet -d --name postgres -p 5432:5432 postgres
+
+## Links
+
+https://editor.datacontract.com/
+
+https://gpt.datacontract.com/
+https://chatgpt.com/g/g-QGMQrqm3p-data-contract-gpt
