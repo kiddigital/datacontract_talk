@@ -46,6 +46,7 @@ export DATACONTRACT_POSTGRES_USERNAME=exsnet
 sudo apt install postgresql-client
 
 datacontract export --format=sql dcdqexample.datacontract.yaml | psql -h localhost -U exsnet -f -
+psql -h localhost -U exsnet -f exampledata.sql
 
 
 ## Podman
@@ -54,6 +55,7 @@ https://hub.docker.com/_/postgres
 
 podman pull postgres
 podman run -e POSTGRES_PASSWORD=Enex1s2024 -e POSTGRES_USER=exsnet -d --name postgres -p 5432:5432 postgres
+podman stop postgres
 
 ## Links
 
