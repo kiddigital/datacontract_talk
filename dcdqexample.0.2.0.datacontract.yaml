@@ -18,7 +18,7 @@ tags:
   - primaire grid component
   - netstation
 links:
-  schemaurl: https://schemas.enexis.nl/datacontracts/netstation/0.1.0/netstation.datacontract.yaml
+  schemaurl: https://schemas.enexis.nl/datacontracts/netstation/0.2.0/netstation.datacontract.yaml
 servers:
   localdevelopment:
     type: postgres
@@ -89,7 +89,6 @@ definitions:
     title: Rijksdriehoekspunt
     description: |
       A Rijksdriehoekspunt (RD point) is a geographic coordinate system used in the Netherlands.
-      point:
     type: string
     pattern: ^[0-9]{6}\,[0-9]{2,3}.[0-9]{6}\,[0-9]{2,3}$
     examples:
