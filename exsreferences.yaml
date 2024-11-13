@@ -1,0 +1,11 @@
+definitions:
+  marid:
+    ID: "asset/marid"
+    title: Master Asset Reference Identifier
+    type: string
+    maxLength: 19
+    minLength: 19
+    examples:
+    - "1759829606489425277"
+    description: |
+      A Master Asset Reference Identifier (MARID) is a unique identifier for an asset.
